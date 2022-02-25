@@ -1,0 +1,49 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "watch:component",
+      "type": "npm",
+      "script": "watch:component",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "watch:web",
+      "type": "npm",
+      "script": "watch:web",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "watch:purs",
+      "type": "npm",
+      "script": "watch:purs",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "watch:all",
+      "dependsOn": ["watch:component", "watch:web", "watch:purs"],
+      "problemMatcher": []
+    }
+  ]
+}
