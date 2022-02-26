@@ -5,8 +5,8 @@
   "scripts": {
     "start:service": "cross-env NODE_ENV=production PORT=80 node ./startService.js",
     "dev:service": "cross-env NODE_ENV=development PORT=3000 nodemon startService.js",
-    "start:app": "chcp 65001 && cross-env NODE_ENV=production electron ./startElectron.js",
-    "dev:app": "chcp 65001 && cross-env NODE_ENV=development electron ./startElectron.js",
+    "start:app": "chcp 65001 && cross-env NODE_ENV=production electron ./index.js",
+    "dev:app": "chcp 65001 && cross-env NODE_ENV=development electron ./index.js",
     "build": "rm -rf .parcel-cache dist && npm run build:component && npm run build:web && npm run build:purs",
     "build:component": "babel src/Component/impt/*.js --config-file ./babel/component -o src/Component/Component.js",
     "build:web": "parcel build src/index.html --public-url ./",
