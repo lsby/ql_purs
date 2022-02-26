@@ -12,12 +12,6 @@ counter :: Number -> Task Unit -> HtmlElement
 counter = memoizeOnce $ _counter
 
 --------------------------
-foreign import _notFind :: Unit -> HtmlElement
-
-notFind :: HtmlElement
-notFind = memoizeOnce $ _notFind unit
-
---------------------------
 foreign import _add :: Number -> Number -> HtmlElement
 
 add :: Number -> Number -> HtmlElement
