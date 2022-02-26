@@ -1,5 +1,21 @@
 "use strict";
 
+exports._add = function (a) {
+  return function (b) {
+    var React = require("react");
+
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        border: 1,
+        borderStyle: "solid",
+        height: "100%",
+        boxSizing: "border-box"
+      }
+    }, /*#__PURE__*/React.createElement("span", null, a + b)));
+  };
+};
+"use strict";
+
 exports._counter = function (n) {
   return function (add) {
     var React = require("react");
@@ -17,4 +33,18 @@ exports._counter = function (n) {
       }
     }, "\u6309\u94AE")));
   };
+};
+"use strict";
+
+exports._notFind = function () {
+  var React = require("react");
+
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: 1,
+      borderStyle: "solid",
+      height: "100%",
+      boxSizing: "border-box"
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "\u9875\u9762\u6CA1\u6709\u627E\u5230")));
 };
