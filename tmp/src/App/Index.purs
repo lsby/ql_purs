@@ -4,7 +4,7 @@ import Prelude
 import Component.Component (counter) as C
 import Data.Tuple (Tuple(..))
 import Event.Event (Event)
-import Hby.React.Component (GridItemPlaceItem(..), GridSize(..), HtmlSize(..), grid, mkGrid, setGridColSize, setGridHeight, setGridItemArea, setGridItemPlace, setGridRowSize, testElement)
+import Hby.React.Component (GridItemPlaceItem(..), GridSize(..), HtmlSize(..), a, grid, mkGrid, setGridColSize, setGridHeight, setGridItemArea, setGridItemPlace, setGridRowSize, testElement)
 import Hby.React.Data (HtmlElement)
 import State.State (State)
 
@@ -18,7 +18,7 @@ index s e =
         [ setGridItemArea (Tuple 0 0) (Tuple 1 2) $ setGridItemPlace I_Center I_Center (C.counter s.num e.add)
         , testElement
         , testElement
-        , testElement
+        , setGridItemPlace I_Center I_Center $ a "/add?a=1&b=2#add" "跳转"
         , testElement
         , setGridItemArea (Tuple 0 2) (Tuple 3 3) testElement
         ]
