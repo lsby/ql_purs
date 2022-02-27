@@ -1,7 +1,8 @@
 module App.NotFind where
 
-import Hby.React.Component (p)
+import Prelude
+import Hby.React.Component (htmlE, mkHtmlE, text)
 import Hby.React.Data (HtmlElement)
 
 notFind :: HtmlElement
-notFind = p "页面没有找到"
+notFind = mkHtmlE $ htmlE "p" [ text "页面没有找到" ]
