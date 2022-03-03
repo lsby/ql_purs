@@ -24,4 +24,4 @@ addPage loc = case A.decodeJson (getQuery loc) of
     pure { a: aa, b: bb }
 
   page :: Number -> Number -> HtmlElement
-  page a b = mkHtmlE $ C.add a b
+  page a b = mkHtmlE $ C.add { a, b }

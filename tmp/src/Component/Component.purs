@@ -6,15 +6,15 @@ import Hby.React.Component (HtmlEBuilder, htmlE, setAttr, text)
 import Hby.Task (Task)
 
 --------------------------
-counter :: Number -> (Task Unit) -> HtmlEBuilder
-counter n e =
+counter :: { n :: Number, onClick :: Task Unit } -> HtmlEBuilder
+counter { n, onClick } =
   htmlE "div"
     [ text (toString n)
-    , setAttr { onClick: e } $ htmlE "button" [ text "按钮" ]
+    , setAttr { onClick } $ htmlE "button" [ text "按钮" ]
     ]
 
 --------------------------
-add :: Number -> Number -> HtmlEBuilder
-add a b = htmlE "div" [ text $ toString (a + b) ]
+add :: { a :: Number, b :: Number } -> HtmlEBuilder
+add { a, b } = htmlE "div" [ text $ toString (a + b) ]
 
 --------------------------

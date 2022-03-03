@@ -19,7 +19,7 @@ index s e =
         [ setGridItemArea (GridItemArea 0 0 1 2)
             $ setGridItemPlaceRow GridItemPlace_Center
             $ setGridItemPlaceCol GridItemPlace_Center
-            $ counter s.num e.add
+            $ counter { n: s.num, onClick: e.add }
         , testElement
         , testElement
         , setStyle { border: "1px solid", boxSizing: "border-box", width: "100%", height: "100%" }
