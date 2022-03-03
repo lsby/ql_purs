@@ -1,20 +1,20 @@
 module Component.Component where
 
 import Prelude
-import Hby.MemoizeOne (memoizeOnce)
-import Hby.React.Data (HtmlElement)
+import Data.Number.Format (toString)
+import Hby.React.Component (HtmlEBuilder, htmlE, setAttr, text)
 import Hby.Task (Task)
 
 --------------------------
-foreign import _counter :: Number -> Task Unit -> HtmlElement
-
-counter :: Number -> Task Unit -> HtmlElement
-counter = memoizeOnce $ _counter
+counter :: Number -> (Task Unit) -> HtmlEBuilder
+counter n e =
+  htmlE "div"
+    [ text (toString n)
+    , setAttr { onClick: e } $ htmlE "button" [ text "按钮" ]
+    ]
 
 --------------------------
-foreign import _add :: Number -> Number -> HtmlElement
-
-add :: Number -> Number -> HtmlElement
-add = memoizeOnce $ _add
+add :: Number -> Number -> HtmlEBuilder
+add a b = htmlE "div" [ text $ toString (a + b) ]
 
 --------------------------

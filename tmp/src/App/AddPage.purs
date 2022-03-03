@@ -7,6 +7,7 @@ import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
 import Data.Number (fromString)
 import Hby.Bom (Location, getQuery)
+import Hby.React.Component (mkHtmlE)
 import Hby.React.Data (HtmlElement)
 
 addPage :: Location -> HtmlElement
@@ -23,4 +24,4 @@ addPage loc = case A.decodeJson (getQuery loc) of
     pure { a: aa, b: bb }
 
   page :: Number -> Number -> HtmlElement
-  page a b = C.add a b
+  page a b = mkHtmlE $ C.add a b
