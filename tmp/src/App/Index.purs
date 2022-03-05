@@ -3,7 +3,7 @@ module App.Index where
 import Prelude
 import Component.Component (counter)
 import Event.Event (Event)
-import Hby.React.Component (htmlE, mkHtmlE, setAttr, setStyle, testElement, text)
+import Hby.React.Component (htmlB, mkHtmlE, setAttr, setStyle, testElement, text)
 import Hby.React.Data (HtmlElement)
 import Hby.React.Grid (GridItemArea(..), GridItemPlaceItem(..), GridSize(..), setGrid, setGridItemArea, setGridItemPlaceCol, setGridItemPlaceRow, setGridSizeCol, setGridSizeRow)
 import State.State (State)
@@ -15,7 +15,7 @@ index s e =
     $ setGridSizeCol [ (GridSize_Fr 1), (GridSize_Fr 1), (GridSize_Fr 1) ]
     $ setGridSizeRow [ (GridSize_Fr 1), (GridSize_Fr 1), (GridSize_Fr 1) ]
     $ setGrid
-    $ htmlE "div"
+    $ htmlB "div"
         [ setGridItemArea (GridItemArea 0 0 1 2)
             $ setGridItemPlaceRow GridItemPlace_Center
             $ setGridItemPlaceCol GridItemPlace_Center
@@ -26,11 +26,11 @@ index s e =
             $ setGridItemPlaceRow GridItemPlace_Center
             $ setGridItemPlaceCol GridItemPlace_Center
             $ setGrid
-            $ htmlE "div"
+            $ htmlB "div"
                 [ setGridItemPlaceRow GridItemPlace_Center
                     $ setGridItemPlaceCol GridItemPlace_Center
                     $ setAttr { href: "/add?a=1&b=2#add" }
-                    $ htmlE "a" [ text "跳转" ]
+                    $ htmlB "a" [ text "跳转" ]
                 ]
         , testElement
         , setGridItemArea (GridItemArea 0 2 3 3) $ testElement
