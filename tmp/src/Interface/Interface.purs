@@ -1,4 +1,4 @@
-module Route.Api where
+module Interface.Interface where
 
 import Prelude
 import Hby.Express.Express (Route, mkRoute, routeB, setPost, Req, Res, getBody, send)
