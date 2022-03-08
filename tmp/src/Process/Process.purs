@@ -6,8 +6,14 @@ import Data.Argonaut (encodeJson, decodeJson) as A
 import Data.Either (Either(..))
 import Effect.Console (log)
 import Hby.Electron.Data (IpcMainEvent)
+import Hby.Electron.IPCMain (on)
 import Hby.Electron.IpcMainEvent (reply, setReturnValue)
 import Hby.Task (Task, liftEffect)
+
+setIPCEvent :: Task Unit
+setIPCEvent = do
+  on "testSync" onSync
+  on "testAsync" onAsync
 
 onSync :: IpcMainEvent → Json → Task Unit
 onSync e a = do

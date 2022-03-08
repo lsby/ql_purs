@@ -1,11 +1,13 @@
 module App.Index where
 
 import Prelude
-import Component.Component (counter, counterF)
+import Component.Component (counterF)
+import Data.Number.Format (toString)
 import Event.Event (Event)
-import Hby.React.Component (HtmlM(..), htmlB, htmlM, mkHtmlE, setAttr, setStyle, testElement, text)
+import Hby.React.Component (HtmlEBuilder, HtmlM(..), htmlB, htmlM, mkHtmlE, setAttr, setStyle, testElement, text)
 import Hby.React.Data (HtmlElement)
 import Hby.React.Grid (GridItemArea(..), GridItemPlaceItem(..), GridSize(..), setGrid, setGridItemArea, setGridItemPlaceCol, setGridItemPlaceRow, setGridSizeCol, setGridSizeRow)
+import Hby.Task (Task)
 import State.State (State)
 
 index :: State -> Event -> HtmlElement
@@ -35,3 +37,10 @@ index s e =
         , Element $ counterF { n: s.num, onClick: e.add }
         , Builder $ setGridItemArea (GridItemArea 0 2 3 3) $ testElement
         ]
+
+counter :: { n :: Number, onClick :: Task Unit } -> HtmlEBuilder
+counter { n, onClick } =
+  htmlB "div"
+    [ text (toString n)
+    , setAttr { onClick } $ htmlB "button" [ text "按钮" ]
+    ]

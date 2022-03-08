@@ -1,11 +1,17 @@
-module Interface.Interface where
+module Route.Api where
 
 import Prelude
+import Hby.Express.Express (Route, mkRoute, routeB, setPost, Req, Res, getBody, send)
 import Data.Argonaut (encodeJson, decodeJson) as A
 import Data.Either (Either(..))
 import Effect.Console (log)
 import Hby.Task (Task, liftEffect)
-import Hby.Express.Express (Req, Res, getBody, send)
+
+api :: Task Route
+api =
+  mkRoute
+    <<< setPost "/add" onAdd
+    $ routeB
 
 onAdd :: Req -> Res -> Task Unit
 onAdd req res = do
