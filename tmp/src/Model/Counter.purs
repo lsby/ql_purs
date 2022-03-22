@@ -13,8 +13,8 @@ _n = lens' \record -> Tuple (record.n) (\n' -> record { n = n' })
 newtype Counter
   = Counter { n :: Number, addEvent :: Number -> Task Unit }
 
-mkHtml :: Counter -> HtmlEBuilder
-mkHtml (Counter { n, addEvent }) =
+toHtmlB :: Counter -> HtmlEBuilder
+toHtmlB (Counter { n, addEvent }) =
   setStyle { border: 1, borderStyle: "solid", height: "100%", boxSizing: "border-box" }
     $ htmlB "div"
         [ text (toString n)

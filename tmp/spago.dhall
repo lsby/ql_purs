@@ -17,13 +17,12 @@ to generate this file without the comments in this block.
   , "console"
   , "effect"
   , "either"
-  , "hby-bom"
-  , "hby-dom"
   , "hby-electron"
   , "hby-express"
   , "hby-memoize-one"
   , "hby-react"
   , "hby-task"
+  , "hby-unsafe"
   , "integers"
   , "maybe"
   , "node-path"
@@ -31,7 +30,6 @@ to generate this file without the comments in this block.
   , "numbers"
   , "prelude"
   , "profunctor-lenses"
-  , "refs"
   , "tuples"
   ]
 , packages = ./packages.dhall
