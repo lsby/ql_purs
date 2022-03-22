@@ -11,7 +11,7 @@ exports._counterF = (opt) => {
         }}
       >
         <span>{opt.n}</span>
-        <button onClick={() => opt.onClick()}>按钮</button>
+        <button onClick={opt.onClick(opt.n + 1)}>按钮</button>
       </div>
     </>
   );

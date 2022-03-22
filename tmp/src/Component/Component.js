@@ -11,8 +11,6 @@ exports._counterF = function (opt) {
       boxSizing: "border-box"
     }
   }, /*#__PURE__*/React.createElement("span", null, opt.n), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return opt.onClick();
-    }
+    onClick: opt.onClick(opt.n + 1)
   }, "\u6309\u94AE")));
 };

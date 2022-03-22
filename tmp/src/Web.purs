@@ -2,15 +2,8 @@ module Web where
 
 import Prelude
 import Effect (Effect)
-import Effect.Ref (new) as Ref
-import Hby.Dom.Event (onDOMContentLoaded, onResize)
-import Hby.Task (liftEffect, runTask_)
-import Render.Render (reRender)
-import State.State (initState)
+import Hby.Task (runTask_)
+import Model.Screen (Screen(..), render)
 
 main :: Effect Unit
-main =
-  runTask_ do
-    sRef <- liftEffect $ Ref.new initState
-    onResize $ reRender sRef
-    onDOMContentLoaded $ reRender sRef
+main = runTask_ $ render $ Screen { n: 0.0 }

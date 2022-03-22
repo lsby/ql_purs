@@ -7,14 +7,18 @@ import Effect (Effect)
 import Effect.Console (log)
 import Hby.Electron.App (onActivate, onWindowAllClosed, quit, whenReady)
 import Hby.Electron.BrowserWindow (getAllWindows, getWebContents, loadFile, loadURL, newBrowserWindow)
-import Hby.Electron.Data (BrowserWindowConf)
+import Hby.Electron.Data (BrowserWindowConf, IpcMainEvent)
 import Hby.Electron.WebContents (openDevTools)
 import Hby.Task (Task, liftEffect, runTask_)
 import Node.Globals (__dirname)
 import Node.Path (resolve)
 import Node.Platform (toString)
 import Node.Process (lookupEnv, platform)
-import Process.Process (setIPCEvent)
+import Data.Argonaut (Json)
+import Data.Argonaut (encodeJson, decodeJson) as A
+import Data.Either (Either(..))
+import Hby.Electron.IPCMain (on)
+import Hby.Electron.IpcMainEvent (reply, setReturnValue)
 
 main :: Effect Unit
 main =
@@ -68,3 +72,24 @@ main =
     case length arr of
       0 -> createWindow
       _ -> pure unit
+
+  setIPCEvent :: Task Unit
+  setIPCEvent = do
+    on "testSync" onSync
+    on "testAsync" onAsync
+
+  onSync :: IpcMainEvent → Json → Task Unit
+  onSync e a = do
+    case A.decodeJson a of
+      Left err -> liftEffect $ log $ show err
+      Right (rx :: { msg :: String }) -> do
+        liftEffect $ log $ show rx
+        setReturnValue e $ A.encodeJson { msg: "testSync-toWeb" }
+
+  onAsync :: IpcMainEvent → Json → Task Unit
+  onAsync e a = do
+    case A.decodeJson a of
+      Left err -> liftEffect $ log $ show err
+      Right (rx :: { msg :: String }) -> do
+        liftEffect $ log $ show rx
+        reply e "testAsync-reply" $ A.encodeJson { msg: "testSync-toWeb" }
