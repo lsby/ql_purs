@@ -1,24 +1,24 @@
 module Electron where
 
 import Prelude
+import Data.Argonaut (Json)
+import Data.Argonaut (encodeJson, decodeJson) as A
 import Data.Array (length)
+import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
-import Effect.Console (log)
 import Hby.Electron.App (onActivate, onWindowAllClosed, quit, whenReady)
 import Hby.Electron.BrowserWindow (getAllWindows, getWebContents, loadFile, loadURL, newBrowserWindow)
 import Hby.Electron.Data (BrowserWindowConf, IpcMainEvent)
+import Hby.Electron.IPCMain (on)
+import Hby.Electron.IpcMainEvent (reply, setReturnValue)
 import Hby.Electron.WebContents (openDevTools)
-import Hby.Task (Task, liftEffect, runTask_)
+import Hby.Task (Task, liftEffect, runTask_, log)
+import Hby.Unsafe (unsafeLog)
 import Node.Globals (__dirname)
 import Node.Path (resolve)
 import Node.Platform (toString)
 import Node.Process (lookupEnv, platform)
-import Data.Argonaut (Json)
-import Data.Argonaut (encodeJson, decodeJson) as A
-import Data.Either (Either(..))
-import Hby.Electron.IPCMain (on)
-import Hby.Electron.IpcMainEvent (reply, setReturnValue)
 
 main :: Effect Unit
 main =
@@ -51,10 +51,10 @@ main =
     pure unit
     case env of
       Just "development" -> do
-        liftEffect $ log "开发模式启动"
+        log "开发模式启动"
         loadURL bw "http://localhost:1234"
       _ -> do
-        liftEffect $ log "生产模式启动"
+        log "生产模式启动"
         p <- liftEffect $ resolve [ __dirname ] "../../dist/index.html"
         loadFile bw p
     openDevTools wc
@@ -81,15 +81,19 @@ main =
   onSync :: IpcMainEvent → Json → Task Unit
   onSync e a = do
     case A.decodeJson a of
-      Left err -> liftEffect $ log $ show err
+      Left err -> do
+        log $ show err
+        unsafeLog a
       Right (rx :: { msg :: String }) -> do
-        liftEffect $ log $ show rx
+        log $ show rx
         setReturnValue e $ A.encodeJson { msg: "testSync-toWeb" }
 
   onAsync :: IpcMainEvent → Json → Task Unit
   onAsync e a = do
     case A.decodeJson a of
-      Left err -> liftEffect $ log $ show err
+      Left err -> do
+        log $ show err
+        unsafeLog a
       Right (rx :: { msg :: String }) -> do
-        liftEffect $ log $ show rx
+        log $ show rx
         reply e "testAsync-reply" $ A.encodeJson { msg: "testSync-toWeb" }

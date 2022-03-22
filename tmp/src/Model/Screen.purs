@@ -4,12 +4,11 @@ import Prelude
 import Component.Component (counterF)
 import Data.Argonaut (encodeJson, decodeJson) as A
 import Data.Either (Either(..))
-import Effect.Class.Console (log)
 import Hby.Electron.IPCRenderer (sendSync)
 import Hby.React.Component (HtmlM(..), htmlB, htmlM, mkHtmlE, setAttr, setStyle, testElement, text)
 import Hby.React.Dom (render) as D
 import Hby.React.Grid (GridItemArea(..), GridSize(..), setGrid, setGridItemArea, setGridSizeCol, setGridSizeRow)
-import Hby.Task (Task, liftEffect)
+import Hby.Task (Task, liftEffect, log)
 import Hby.Unsafe (unsafeLog)
 import Model.Counter (Counter(..), toHtmlB)
 
@@ -41,7 +40,7 @@ render (Screen { n }) =
     r <- sendSync "testSync" $ A.encodeJson { msg: "testSync-toMain" }
     case A.decodeJson r of
       Left err -> do
-        liftEffect $ log $ show err
+        log $ show err
         unsafeLog r
       Right (rx :: { msg :: String }) -> do
-        liftEffect $ log $ show rx.msg
+        log $ show rx.msg
