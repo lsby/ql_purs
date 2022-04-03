@@ -1,33 +1,67 @@
-module Model.Screen where
+module Model.Screen
+  ( mkScreenNilItem
+  , addItem
+  , render
+  , Screen(..)
+  , ScreenItemList_Cons
+  , ScreenItemList_Nil
+  , class AddItem
+  , class ToHtmlArray
+  , toHtmlArray
+  ) where
 
 import Prelude
-import Hby.React.Component (HtmlM(..), htmlM, mkHtmlE, setStyle, testElement)
+import Hby.React.Component (HtmlEBuilder, htmlB, mkHtmlE, setStyle)
 import Hby.React.Dom (render) as D
-import Hby.React.Grid (GridItemArea(..), GridSize(..), setGrid, setGridItemArea, setGridSizeCol, setGridSizeRow)
+import Hby.React.Grid (GridItemArea, GridSize, setGrid, setGridItemArea, setGridSizeCol, setGridSizeRow)
 import Hby.Task (Task)
-import Model.Counter (Counter)
-import Model.CounterF (CounterF)
-import Model.TestButton (TestButton)
-import Model.View (toHtmlB)
+import Model.View (class View, toHtmlB)
 
-newtype Screen
+newtype Screen a b
   = Screen
-  { counter :: Counter
-  , counterF :: CounterF
-  , testButton :: TestButton
+  { rowSize :: Array GridSize
+  , colSize :: Array GridSize
+  , item :: ScreenItemList_Cons a b
   }
 
-render :: Screen -> Task Unit
-render (Screen { counter, counterF, testButton }) =
+type ScreenItem a
+  = { area :: GridItemArea, obj :: a }
+
+data ScreenItemList_Cons a b
+  = Cons (ScreenItem a) b
+
+data ScreenItemList_Nil
+  = Nil
+
+mkScreenNilItem :: ScreenItemList_Nil
+mkScreenNilItem = Nil
+
+class AddItem a where
+  addItem :: forall c. View c => ScreenItem c -> a -> ScreenItemList_Cons c a
+
+instance _AddItem_ScreenItemList_Cons :: AddItem (ScreenItemList_Cons d e) where
+  addItem :: forall c. View c => ScreenItem c -> (ScreenItemList_Cons d e) -> ScreenItemList_Cons c (ScreenItemList_Cons d e)
+  addItem c a = Cons c a
+
+instance _AddItem_ScreenItemList_Nil :: AddItem ScreenItemList_Nil where
+  addItem c _ = Cons c Nil
+
+class ToHtmlArray a where
+  toHtmlArray :: a -> Array HtmlEBuilder
+
+instance _ToHtmlArray_ScreenItemList_Cons :: (View a, ToHtmlArray b) => ToHtmlArray (ScreenItemList_Cons a b) where
+  toHtmlArray o = case o of
+    Cons ({ area, obj }) b -> [ setGridItemArea area $ toHtmlB obj ] <> toHtmlArray b
+
+instance _ToHtmlArray_ScreenItemList_Nil :: ToHtmlArray ScreenItemList_Nil where
+  toHtmlArray _ = []
+
+render :: forall a b. ToHtmlArray (ScreenItemList_Cons a b) => View a => Screen a b -> Task Unit
+render (Screen { rowSize, colSize, item }) =
   D.render $ mkHtmlE
     $ setStyle { "height": "100%" }
-    $ setGridSizeRow [ GridSize_Fr 1, GridSize_Fr 1, GridSize_Fr 1 ]
-    $ setGridSizeCol [ GridSize_Fr 1, GridSize_Fr 1 ]
+    $ setGridSizeRow rowSize
+    $ setGridSizeCol colSize
     $ setGrid
-    $ htmlM "div"
-        [ Builder $ toHtmlB counter
-        , Builder testElement
-        , Builder testElement
-        , Builder $ toHtmlB counterF
-        , Builder $ setGridItemArea (GridItemArea 0 2 2 3) $ toHtmlB testButton
-        ]
+    $ htmlB "div"
+    $ toHtmlArray item
