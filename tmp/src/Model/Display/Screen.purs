@@ -1,5 +1,5 @@
-module Model.Screen
-  ( mkScreenNilItem
+module Model.Display.Screen
+  ( mkScreenItem
   , addItem
   , render
   , Screen(..)
@@ -11,11 +11,11 @@ module Model.Screen
   ) where
 
 import Prelude
-import Hby.React.Component (HtmlEBuilder, htmlB, mkHtmlE, setStyle)
+import Hby.React.Component (HtmlEBuilder, htmlB, htmlE, mkHtmlE, setStyle)
 import Hby.React.Dom (render) as D
 import Hby.React.Grid (GridItemArea, GridSize, setGrid, setGridItemArea, setGridSizeCol, setGridSizeRow)
 import Hby.Task (Task)
-import Model.View (class View, toHtmlB)
+import Model.Display.View (class View, toHtmlElement)
 
 newtype Screen a b
   = Screen
@@ -33,8 +33,8 @@ data ScreenItemList_Cons a b
 data ScreenItemList_Nil
   = Nil
 
-mkScreenNilItem :: ScreenItemList_Nil
-mkScreenNilItem = Nil
+mkScreenItem :: ScreenItemList_Nil
+mkScreenItem = Nil
 
 class AddItem a where
   addItem :: forall c. View c => ScreenItem c -> a -> ScreenItemList_Cons c a
@@ -51,7 +51,7 @@ class ToHtmlArray a where
 
 instance _ToHtmlArray_ScreenItemList_Cons :: (View a, ToHtmlArray b) => ToHtmlArray (ScreenItemList_Cons a b) where
   toHtmlArray o = case o of
-    Cons ({ area, obj }) b -> [ setGridItemArea area $ toHtmlB obj ] <> toHtmlArray b
+    Cons ({ area, obj }) b -> [ setGridItemArea area $ htmlE "div" [ toHtmlElement obj ] ] <> toHtmlArray b
 
 instance _ToHtmlArray_ScreenItemList_Nil :: ToHtmlArray ScreenItemList_Nil where
   toHtmlArray _ = []

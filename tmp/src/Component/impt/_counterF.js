@@ -10,7 +10,8 @@ exports._counterF = (opt) => {
           boxSizing: "border-box",
         }}
       >
-        <span>{opt.n}</span>
+        <div>这个组件是通过jsx编写的</div>
+        <div>{opt.n}</div>
         <button onClick={opt.onClick(opt.n + 1)}>按钮</button>
       </div>
     </>
