@@ -11,7 +11,7 @@ newtype CounterF
   = CounterF { n :: Number, onClick :: Number -> Task Unit }
 
 _n :: forall a r. Lens' { n :: a | r } a
-_n = lens' \record -> Tuple (record.n) (\n' -> record { n = n' })
+_n = prop (Proxy :: Proxy "n")
 
 instance viewCounterF :: View CounterF where
   toHtmlElement (CounterF { n, onClick: e }) = counterF { n, onClick: \n' -> e n' }

@@ -12,7 +12,7 @@ newtype Counter
   = Counter { n :: Number, addEvent :: Number -> Task Unit }
 
 _n :: forall a r. Lens' { n :: a | r } a
-_n = lens' \record -> Tuple (record.n) (\n' -> record { n = n' })
+_n = prop (Proxy :: Proxy "n")
 
 instance viewCounter :: View Counter where
   toHtmlElement (Counter { n, addEvent }) =

@@ -16,20 +16,17 @@ main = runTask_ $ render { n: 0.0 }
   where
   render :: { n :: Number } -> Task Unit
   render { n } = do
-    counter <- pure $ Counter { n, addEvent: \n' -> render { n: n' } }
-    counterF <- pure $ CounterF { n, onClick: \n' -> render { n: n' } }
-    testButton <- pure $ TestButton unit
-    testElement <- pure $ TestElement unit
+    item <-
+      pure $ identity
+        $ addItem { area: GridItemArea 0 0 1 1, obj: Counter { n, addEvent: \n' -> render { n: n' } } }
+        $ addItem { area: GridItemArea 1 0 2 1, obj: Counter { n, addEvent: \n' -> render { n: n' } } }
+        $ addItem { area: GridItemArea 0 1 1 1, obj: TestElement unit }
+        $ addItem { area: GridItemArea 1 1 2 2, obj: CounterF { n, onClick: \n' -> render { n: n' } } }
+        $ addItem { area: GridItemArea 0 2 2 3, obj: TestButton unit }
+        $ mkScreenItem
     S.render
       $ Screen
           { rowSize: [ GridSize_Fr 1, GridSize_Fr 1, GridSize_Fr 1 ]
           , colSize: [ GridSize_Fr 1, GridSize_Fr 1 ]
-          , item:
-              identity
-                $ addItem { area: GridItemArea 0 0 1 1, obj: counter }
-                $ addItem { area: GridItemArea 1 0 2 1, obj: counter }
-                $ addItem { area: GridItemArea 0 1 1 1, obj: testElement }
-                $ addItem { area: GridItemArea 1 1 2 2, obj: counterF }
-                $ addItem { area: GridItemArea 0 2 2 3, obj: testButton }
-                $ mkScreenItem
+          , item: item
           }
