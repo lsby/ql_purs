@@ -1,39 +1,10 @@
 module Web where
 
 import Prelude
-import Data.Lens (set)
 import Effect (Effect)
-import Hby.React.Grid (GridItemArea(..), GridSize(..))
-import Hby.Task (Task, runTask_)
-import Model.Display.Screen (Screen(..), addItem, mkScreenItem)
-import Model.Display.Screen (render) as S
-import Model.Demo.Counter (Counter(..), _n)
-import Model.Demo.CounterF (CounterF(..))
-import Model.Demo.TestButton (TestButton(..))
-import Model.Demo.TestElement (TestElement(..))
-
-type State
-  = { n :: Number }
+import Hby.Task (runTask_)
+import Model.Demo.Demo (render) as Demo
+import Model.Demo.Demo (mkDemo)
 
 main :: Effect Unit
-main = runTask_ $ render { n: 0.0 }
-  where
-  render :: State -> Task Unit
-  render s@{ n } = do
-    item <-
-      pure $ identity
-        $ addItem { area: GridItemArea 0 0 1 1, obj: Counter { n, addEvent: render <<< onAdd s } }
-        $ addItem { area: GridItemArea 1 0 2 1, obj: Counter { n, addEvent: render <<< onAdd s } }
-        $ addItem { area: GridItemArea 0 1 1 1, obj: TestElement unit }
-        $ addItem { area: GridItemArea 1 1 2 2, obj: CounterF { n, onClick: render <<< onAdd s } }
-        $ addItem { area: GridItemArea 0 2 2 3, obj: TestButton unit }
-        $ mkScreenItem
-    S.render
-      $ Screen
-          { rowSize: [ GridSize_Fr 1, GridSize_Fr 1, GridSize_Fr 1 ]
-          , colSize: [ GridSize_Fr 1, GridSize_Fr 1 ]
-          , item: item
-          }
-
-  onAdd :: State -> Number -> State
-  onAdd s n' = set _n n' s
+main = runTask_ $ Demo.render $ mkDemo
