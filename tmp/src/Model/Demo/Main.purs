@@ -1,4 +1,4 @@
-module Model.Demo.Demo where
+module Model.Demo.Main where
 
 import Prelude
 import Hby.React.Grid (GridItemArea(..), GridSize(..))
