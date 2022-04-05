@@ -1,4 +1,4 @@
-module Model.UI.TestButton where
+module Model.Demo.TestButton where
 
 import Prelude
 import Data.Argonaut as A

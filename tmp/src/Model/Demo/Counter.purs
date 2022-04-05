@@ -1,12 +1,13 @@
-module Model.UI.Counter where
+module Model.Demo.Counter where
 
 import Prelude
-import Data.Lens (Lens', lens')
+import Data.Lens (Lens')
 import Data.Number.Format (toString)
-import Data.Tuple (Tuple(..))
 import Hby.React.Component (htmlB, mkHtmlE, setAttr, setStyle, text)
 import Hby.Task (Task)
 import Model.Display.View (class View)
+import Data.Lens.Record (prop)
+import Type.Proxy (Proxy(..))
 
 newtype Counter
   = Counter { n :: Number, addEvent :: Number -> Task Unit }

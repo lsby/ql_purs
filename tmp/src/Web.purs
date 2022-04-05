@@ -7,10 +7,10 @@ import Hby.React.Grid (GridItemArea(..), GridSize(..))
 import Hby.Task (Task, runTask_)
 import Model.Display.Screen (Screen(..), addItem, mkScreenItem)
 import Model.Display.Screen (render) as S
-import Model.UI.Counter (Counter(..), _n)
-import Model.UI.CounterF (CounterF(..))
-import Model.UI.TestButton (TestButton(..))
-import Model.UI.TestElement (TestElement(..))
+import Model.Demo.Counter (Counter(..), _n)
+import Model.Demo.CounterF (CounterF(..))
+import Model.Demo.TestButton (TestButton(..))
+import Model.Demo.TestElement (TestElement(..))
 
 type State
   = { n :: Number }

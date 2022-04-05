@@ -1,4 +1,4 @@
-module Model.UI.TestElement where
+module Model.Demo.TestElement where
 
 import Prelude
 import Hby.React.Component (mkHtmlE, testElement)

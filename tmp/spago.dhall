@@ -30,7 +30,6 @@ to generate this file without the comments in this block.
   , "numbers"
   , "prelude"
   , "profunctor-lenses"
-  , "tuples"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

@@ -1,11 +1,12 @@
-module Model.UI.CounterF where
+module Model.Demo.CounterF where
 
 import Prelude
 import Component.Component (counterF)
-import Data.Lens (Lens', lens')
-import Data.Tuple (Tuple(..))
+import Data.Lens (Lens')
+import Data.Lens.Record (prop)
 import Hby.Task (Task)
 import Model.Display.View (class View)
+import Type.Proxy (Proxy(..))
 
 newtype CounterF
   = CounterF { n :: Number, onClick :: Number -> Task Unit }
