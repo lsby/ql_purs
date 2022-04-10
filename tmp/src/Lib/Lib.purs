@@ -1,6 +1,8 @@
 module Lib.Lib where
 
 import Prelude
-import Effect (Effect)
+import Hby.Task (Task)
 
-foreign import testFun :: Effect Unit
+foreign import testFun :: Task Unit
+
+foreign import initEnv :: Task Unit

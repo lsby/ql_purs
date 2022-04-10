@@ -1,8 +1,8 @@
-require("../output/Web/index.js").main();
+require("../output/Web/index.js").main()
 
 if (module.hot) {
-  var ws = new WebSocket("ws://localhost:1234/");
+  var ws = new WebSocket("ws://localhost:1234/")
   ws.onmessage = function () {
-    window.location.href = window.location.href;
-  };
+    window.location.href = window.location.href
+  }
 }

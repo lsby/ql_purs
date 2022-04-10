@@ -1,2 +1,2 @@
-var main = require("./output/Electron/index.js");
-main.main();
+var main = require("./output/Electron/index.js")
+main.main()

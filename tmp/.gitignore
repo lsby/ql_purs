@@ -12,3 +12,6 @@
 /.cache
 /.parcel-cache
 /pack
+/.env/dev.env
+/.env/prod.env
+/.env/release.env
