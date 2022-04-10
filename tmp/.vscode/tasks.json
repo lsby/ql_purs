@@ -28,6 +28,20 @@
       }
     },
     {
+      "label": "watch:ts",
+      "type": "npm",
+      "script": "watch:ts",
+      "problemMatcher": "$tsc-watch",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
       "label": "watch:purs",
       "type": "npm",
       "script": "watch:purs",
@@ -42,7 +56,7 @@
     },
     {
       "label": "watch:all",
-      "dependsOn": ["watch:component", "watch:web", "watch:purs"],
+      "dependsOn": ["watch:component", "watch:web", "watch:ts", "watch:purs"],
       "problemMatcher": []
     }
   ]

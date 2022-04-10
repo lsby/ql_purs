@@ -10,9 +10,11 @@
     "build": "rm -rf .parcel-cache dist && npm run build:component && npm run build:web && npm run build:purs",
     "build:component": "babel src/Component/impt/*.js --config-file ./babel/component -o src/Component/Component.js",
     "build:web": "parcel build src/index.html --public-url ./",
+    "build:ts": "tsc",
     "build:purs": "spago build",
     "watch:component": "onchange -i src/Component/impt/*.js -- npm run build:component",
     "watch:web": "rm -rf .parcel-cache dist && parcel src/index.html",
+    "watch:ts": "tsc -w",
     "watch:purs": "spago build -w",
     "pack": "npm run build && electron-builder"
   },
@@ -45,12 +47,14 @@
     "@babel/core": "^7.17.4",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@types/ramda": "^0.28.8",
     "cross-env": "^7.0.3",
     "electron": "^17.1.0",
     "electron-builder": "^22.14.13",
     "nodemon": "^2.0.15",
     "onchange": "^7.1.0",
     "parcel": "^2.3.2",
-    "parcel-reporter-static-files-copy": "^1.3.4"
+    "parcel-reporter-static-files-copy": "^1.3.4",
+    "typescript": "^4.6.3"
   }
 }
