@@ -10,7 +10,7 @@
     "start:app": "chcp 65001 && cross-env NODE_ENV=production electron ./index.js",
     "dev:app": "chcp 65001 && cross-env NODE_ENV=development electron ./index.js",
     "build": "rm -rf .parcel-cache dist && npm run build:component && npm run build:web && npm run build:ts && npm run build:purs",
-    "build:component": "babel src/Component/impt/*.js --config-file ./babel/component -o src/Component/Component.js",
+    "build:component": "babel src/Component/impt/*.js --config-file ./.babel/component -o src/Component/Component.js",
     "build:web": "parcel build ./index.html --public-url ./",
     "build:ts": "tsc",
     "build:purs": "spago build",
@@ -39,6 +39,9 @@
     "directories": {
       "output": "./pack"
     }
+  },
+  "staticFiles": {
+    "staticPath": ".static"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
