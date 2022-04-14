@@ -15,6 +15,7 @@ import Hby.Electron.IpcMainEvent (reply, setReturnValue)
 import Hby.Electron.WebContents (openDevTools)
 import Hby.Task (Task, liftEffect, runTask_, log)
 import Hby.Unsafe (unsafeLog)
+import Lib.Lib (initEnv)
 import Node.Globals (__dirname)
 import Node.Path (resolve)
 import Node.Platform (toString)
@@ -23,6 +24,7 @@ import Node.Process (lookupEnv, platform)
 main :: Effect Unit
 main =
   runTask_ do
+    initEnv
     whenReady
     createWindow
     onActivate onAllCloseCreate
