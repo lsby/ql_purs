@@ -30,6 +30,6 @@ exports.initEnv = () => {
 exports.testFun = () => {
   return f()
   async function f() {
-    console.log("这是用js写的文件")
+    console.log("这是用js写的函数")
   }
 }
