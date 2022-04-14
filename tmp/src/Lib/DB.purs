@@ -1,4 +1,4 @@
-module DataBase.DB where
+module Lib.DB where
 
 import Hby.Task (Task)
 

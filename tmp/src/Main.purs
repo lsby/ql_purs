@@ -1,7 +1,7 @@
 module Main where
 
 import Prelude
-import DataBase.DB (get_xs_by_id)
+import Lib.DB (get_xs_by_id)
 import Effect (Effect)
 import Hby.Task (runTask_)
 import Hby.Task as T
