@@ -4,11 +4,17 @@ import path from "path"
 import { 获得环境变量 } from "./lib"
 
 export async function main() {
-  var { host, port, user, password, database } = 获得环境变量()
+  var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = 获得环境变量()
 
   var knex = _knex({
     client: "mysql",
-    connection: { host, port, user, password, database },
+    connection: {
+      host: DB_HOST,
+      port: DB_PORT,
+      user: DB_USER,
+      password: DB_PWD,
+      database: DB_NAME,
+    },
   })
 
   try {
@@ -33,7 +39,7 @@ export async function main() {
         }[]
       >()
       .from("information_schema.columns")
-      .where({ table_schema: database })
+      .where({ table_schema: DB_NAME })
 
     var 整理 = 描述
       .map((a) => a.TABLE_NAME)

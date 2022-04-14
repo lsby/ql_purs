@@ -56,46 +56,49 @@ function 获得环境变量() {
     else {
         throw "没有指定运行环境";
     }
-    var host = process.env["DB_HOST"];
-    var port = Number(process.env["DB_PORT"]);
-    var user = process.env["DB_USER"];
-    var password = process.env["DB_PWD"];
-    var database = process.env["DB_NAME"];
-    if (host == null ||
-        port == null ||
-        user == null ||
-        password == null ||
-        database == null) {
+    var DB_HOST = process.env["DB_HOST"];
+    var DB_PORT = Number(process.env["DB_PORT"]);
+    var DB_USER = process.env["DB_USER"];
+    var DB_PWD = process.env["DB_PWD"];
+    var DB_NAME = process.env["DB_NAME"];
+    var APP_PORT = Number(process.env["APP_PORT"]);
+    if (DB_HOST == null ||
+        DB_PORT == null ||
+        DB_USER == null ||
+        DB_PWD == null ||
+        DB_NAME == null ||
+        APP_PORT == null) {
         throw "环境变量错误";
     }
-    if (isNaN(port)) {
+    if (isNaN(DB_PORT) || isNaN(APP_PORT)) {
         throw "环境变量错误";
     }
-    return { host, port, user, password, database };
+    return { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME, APP_PORT };
 }
 exports.获得环境变量 = 获得环境变量;
 function 删除所有表() {
     return __awaiter(this, void 0, void 0, function* () {
-        var { host, port, user, password, database } = 获得环境变量();
-        var host = process.env["DB_HOST"];
-        var port = Number(process.env["DB_PORT"]);
-        var user = process.env["DB_USER"];
-        var password = process.env["DB_PWD"];
-        var database = process.env["DB_NAME"];
+        var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = 获得环境变量();
         var knex = _knex.default({
             client: "mysql",
-            connection: { host, port, user, password, database },
+            connection: {
+                host: DB_HOST,
+                port: DB_PORT,
+                user: DB_USER,
+                password: DB_PWD,
+                database: DB_NAME,
+            },
         });
         try {
             var 所有表 = (yield knex
                 .select("TABLE_NAME")
                 .from("information_schema.TABLES")
-                .where({ table_schema: database })).map((a) => a.TABLE_NAME);
+                .where({ table_schema: DB_NAME })).map((a) => a.TABLE_NAME);
             var 删除所有外键约束 = (yield knex.raw(`
             SELECT concat('alter table ',table_schema,'.',table_name,' DROP FOREIGN KEY ',constraint_name,';')
             FROM information_schema.table_constraints
             WHERE constraint_type='FOREIGN KEY'
-            AND table_schema='${database}'
+            AND table_schema='${DB_NAME}'
         `))[0].map((a) => Object.values(a)[0].trim());
             for (var sql of 删除所有外键约束) {
                 yield knex.raw(sql);
@@ -113,10 +116,16 @@ function 删除所有表() {
 exports.删除所有表 = 删除所有表;
 function 新建表(schema) {
     return __awaiter(this, void 0, void 0, function* () {
-        var { host, port, user, password, database } = 获得环境变量();
+        var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = 获得环境变量();
         var knex = _knex.default({
             client: "mysql",
-            connection: { host, port, user, password, database },
+            connection: {
+                host: DB_HOST,
+                port: DB_PORT,
+                user: DB_USER,
+                password: DB_PWD,
+                database: DB_NAME,
+            },
         });
         try {
             var cmd = yield schema(knex).generateDdlCommands();
@@ -154,16 +163,17 @@ function 新建表(schema) {
 exports.新建表 = 新建表;
 function 新建数据库() {
     return __awaiter(this, void 0, void 0, function* () {
-        var { host, port, user, password, database } = 获得环境变量();
+        var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = 获得环境变量();
         var connection = mysql_1.default.createConnection({
-            host,
-            port,
-            user,
-            password,
+            host: DB_HOST,
+            port: DB_PORT,
+            user: DB_USER,
+            password: DB_PWD,
+            database: DB_NAME,
         });
         connection.connect();
         yield new Promise((res, rej) => {
-            connection.query(`create database If Not Exists ${database} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci`, function (error, results, fields) {
+            connection.query(`create database If Not Exists ${DB_NAME} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci`, function (error, results, fields) {
                 if (error)
                     return rej(error);
                 res(null);

@@ -13,9 +13,15 @@ const kysely_1 = require("kysely");
 const lib_1 = require("./lib");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        var { host, port, user, password, database } = (0, lib_1.获得环境变量)();
+        var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = (0, lib_1.获得环境变量)();
         var kysely = new kysely_1.Kysely({
-            dialect: new kysely_1.MysqlDialect({ host, port, user, password, database }),
+            dialect: new kysely_1.MysqlDialect({
+                host: DB_HOST,
+                port: DB_PORT,
+                user: DB_USER,
+                password: DB_PWD,
+                database: DB_NAME,
+            }),
         });
         try {
             yield kysely.connection().execute((db) => __awaiter(this, void 0, void 0, function* () {

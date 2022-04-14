@@ -3,12 +3,18 @@ import path from "path"
 import { 获得环境变量, 新建数据库 } from "./lib"
 
 async function main() {
-  var { host, port, user, password, database } = 获得环境变量()
+  var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = 获得环境变量()
 
   await 新建数据库()
 
   var db = new Kysely<any>({
-    dialect: new MysqlDialect({ host, port, user, password, database }),
+    dialect: new MysqlDialect({
+      host: DB_HOST,
+      port: DB_PORT,
+      user: DB_USER,
+      password: DB_PWD,
+      database: DB_NAME,
+    }),
   })
 
   var migrator = new Migrator({

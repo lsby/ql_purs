@@ -16,8 +16,8 @@ const readline_sync_1 = __importDefault(require("readline-sync"));
 const lib_1 = require("./lib");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        var { database } = (0, lib_1.获得环境变量)();
-        process.stdout.write(`本操作将清除和清空数据库${database}, 所有表结构和数据都将丢失, 确定吗?[y/N]`);
+        var { DB_HOST, DB_NAME } = (0, lib_1.获得环境变量)();
+        process.stdout.write(`本操作将清除和清空数据库${DB_HOST}:${DB_NAME}, 所有表结构和数据都将丢失, 确定吗?[y/N]`);
         var yes = readline_sync_1.default.question();
         if (yes != "y" && yes != "Y") {
             console.log("用户取消了操作");

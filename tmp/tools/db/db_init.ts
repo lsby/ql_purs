@@ -4,10 +4,16 @@ import DataBase from "../types/Database"
 import { 获得环境变量 } from "./lib"
 
 async function main() {
-  var { host, port, user, password, database } = 获得环境变量()
+  var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = 获得环境变量()
 
   var kysely = new Kysely<DataBase>({
-    dialect: new MysqlDialect({ host, port, user, password, database }),
+    dialect: new MysqlDialect({
+      host: DB_HOST,
+      port: DB_PORT,
+      user: DB_USER,
+      password: DB_PWD,
+      database: DB_NAME,
+    }),
   })
 
   try {

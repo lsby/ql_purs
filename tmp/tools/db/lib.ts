@@ -17,39 +17,41 @@ export function 获得环境变量() {
     throw "没有指定运行环境"
   }
 
-  var host = process.env["DB_HOST"]
-  var port = Number(process.env["DB_PORT"])
-  var user = process.env["DB_USER"]
-  var password = process.env["DB_PWD"]
-  var database = process.env["DB_NAME"]
+  var DB_HOST = process.env["DB_HOST"]
+  var DB_PORT = Number(process.env["DB_PORT"])
+  var DB_USER = process.env["DB_USER"]
+  var DB_PWD = process.env["DB_PWD"]
+  var DB_NAME = process.env["DB_NAME"]
+  var APP_PORT = Number(process.env["APP_PORT"])
 
   if (
-    host == null ||
-    port == null ||
-    user == null ||
-    password == null ||
-    database == null
+    DB_HOST == null ||
+    DB_PORT == null ||
+    DB_USER == null ||
+    DB_PWD == null ||
+    DB_NAME == null ||
+    APP_PORT == null
   ) {
     throw "环境变量错误"
   }
-  if (isNaN(port)) {
+  if (isNaN(DB_PORT) || isNaN(APP_PORT)) {
     throw "环境变量错误"
   }
 
-  return { host, port, user, password, database }
+  return { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME, APP_PORT }
 }
 export async function 删除所有表() {
-  var { host, port, user, password, database } = 获得环境变量()
-
-  var host = process.env["DB_HOST"]!
-  var port = Number(process.env["DB_PORT"])!
-  var user = process.env["DB_USER"]!
-  var password = process.env["DB_PWD"]!
-  var database = process.env["DB_NAME"]!
+  var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = 获得环境变量()
 
   var knex = _knex.default({
     client: "mysql",
-    connection: { host, port, user, password, database },
+    connection: {
+      host: DB_HOST,
+      port: DB_PORT,
+      user: DB_USER,
+      password: DB_PWD,
+      database: DB_NAME,
+    },
   })
 
   try {
@@ -57,7 +59,7 @@ export async function 删除所有表() {
       await knex
         .select("TABLE_NAME")
         .from("information_schema.TABLES")
-        .where({ table_schema: database })
+        .where({ table_schema: DB_NAME })
     ).map((a: any) => a.TABLE_NAME)
 
     var 删除所有外键约束: string[] = (
@@ -65,7 +67,7 @@ export async function 删除所有表() {
             SELECT concat('alter table ',table_schema,'.',table_name,' DROP FOREIGN KEY ',constraint_name,';')
             FROM information_schema.table_constraints
             WHERE constraint_type='FOREIGN KEY'
-            AND table_schema='${database}'
+            AND table_schema='${DB_NAME}'
         `)
     )[0].map((a: any) => (Object.values(a)[0] as string).trim())
     for (var sql of 删除所有外键约束) {
@@ -85,11 +87,17 @@ export async function 删除所有表() {
 export async function 新建表(
   schema: (knex: _knex.Knex<any, unknown[]>) => _knex.Knex.SchemaBuilder
 ) {
-  var { host, port, user, password, database } = 获得环境变量()
+  var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = 获得环境变量()
 
   var knex = _knex.default({
     client: "mysql",
-    connection: { host, port, user, password, database },
+    connection: {
+      host: DB_HOST,
+      port: DB_PORT,
+      user: DB_USER,
+      password: DB_PWD,
+      database: DB_NAME,
+    },
   })
 
   try {
@@ -125,20 +133,21 @@ export async function 新建表(
 }
 
 export async function 新建数据库() {
-  var { host, port, user, password, database } = 获得环境变量()
+  var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = 获得环境变量()
 
   var connection = mysql.createConnection({
-    host,
-    port,
-    user,
-    password,
+    host: DB_HOST,
+    port: DB_PORT,
+    user: DB_USER,
+    password: DB_PWD,
+    database: DB_NAME,
   })
 
   connection.connect()
 
   await new Promise((res, rej) => {
     connection.query(
-      `create database If Not Exists ${database} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci`,
+      `create database If Not Exists ${DB_NAME} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci`,
       function (error: any, results: any, fields: any) {
         if (error) return rej(error)
         res(null)

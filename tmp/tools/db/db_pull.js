@@ -19,16 +19,22 @@ const path_1 = __importDefault(require("path"));
 const lib_1 = require("./lib");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        var { host, port, user, password, database } = (0, lib_1.获得环境变量)();
+        var { DB_HOST, DB_PORT, DB_USER, DB_PWD, DB_NAME } = (0, lib_1.获得环境变量)();
         var knex = (0, knex_1.default)({
             client: "mysql",
-            connection: { host, port, user, password, database },
+            connection: {
+                host: DB_HOST,
+                port: DB_PORT,
+                user: DB_USER,
+                password: DB_PWD,
+                database: DB_NAME,
+            },
         });
         try {
             var 描述 = yield knex
                 .select()
                 .from("information_schema.columns")
-                .where({ table_schema: database });
+                .where({ table_schema: DB_NAME });
             var 整理 = 描述
                 .map((a) => a.TABLE_NAME)
                 .map((a) => ({ 表名: a, 描述: 描述.filter((b) => b.TABLE_NAME == a) }))
