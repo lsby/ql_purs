@@ -23,7 +23,7 @@
     "db:pull": "cross-env NODE_ENV=development node tools/db/db_pull.js",
     "db:init": "cross-env NODE_ENV=development node tools/db/db_init.js",
     "db:empty": "cross-env NODE_ENV=development node tools/db/db_empty.js",
-    "db:reset": "npm run db:push && npm run db:empty && npm run db:pull && npm run db:init"
+    "db:reset": "npm run db:push && npm run db:empty && npm run db:push && npm run db:pull && npm run db:init"
   },
   "build": {
     "appId": "ql.purs",
