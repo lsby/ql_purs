@@ -28,7 +28,7 @@ main =
         <<< useStatic "/" staticPath
         <<< useRoute "/api" apiRoute
         $ appB
-    port <- liftEffect $ lookupEnv "PORT"
+    port <- liftEffect $ lookupEnv "APP_PORT"
     case port >>= fromString >>= fromNumber of
       Nothing -> throw "无法从环境变量获得端口号"
       Just p -> listen app p $ log $ "start service in http://127.0.0.1:" <> show p
