@@ -14,40 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const readline_sync_1 = __importDefault(require("readline-sync"));
 const lib_1 = require("./lib");
-const dotenv_1 = __importDefault(require("dotenv"));
-const path_1 = __importDefault(require("path"));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        if (process.env["NODE_ENV"] == "development") {
-            console.log("使用 dev 环境");
-            dotenv_1.default.config({ path: path_1.default.resolve(__dirname, "../../.env/dev.env") });
-        }
-        else if (process.env["NODE_ENV"] == "release") {
-            console.log("使用 release 环境");
-            dotenv_1.default.config({ path: path_1.default.resolve(__dirname, "../../.env/release.env") });
-        }
-        else if (process.env["NODE_ENV"] == "production") {
-            console.log("使用 production 环境");
-            dotenv_1.default.config({ path: path_1.default.resolve(__dirname, "../../.env/prod.env") });
-        }
-        else {
-            throw "没有指定运行环境";
-        }
-        var host = process.env["DB_HOST"];
-        var port = Number(process.env["DB_PORT"]);
-        var user = process.env["DB_USER"];
-        var password = process.env["DB_PWD"];
-        var database = process.env["DB_NAME"];
-        if (host == null ||
-            port == null ||
-            user == null ||
-            password == null ||
-            database == null) {
-            throw "环境变量错误";
-        }
-        if (isNaN(port)) {
-            throw "环境变量错误";
-        }
+        var { database } = (0, lib_1.获得环境变量)();
         process.stdout.write(`本操作将清除和清空数据库${database}, 所有表结构和数据都将丢失, 确定吗?[y/N]`);
         var yes = readline_sync_1.default.question();
         if (yes != "y" && yes != "Y") {

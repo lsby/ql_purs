@@ -16,39 +16,10 @@ exports.main = void 0;
 const knex_1 = __importDefault(require("knex"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const dotenv_1 = __importDefault(require("dotenv"));
+const lib_1 = require("./lib");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        if (process.env["NODE_ENV"] == "development") {
-            console.log("使用 dev 环境");
-            dotenv_1.default.config({ path: path_1.default.resolve(__dirname, "../../.env/dev.env") });
-        }
-        else if (process.env["NODE_ENV"] == "release") {
-            console.log("使用 release 环境");
-            dotenv_1.default.config({ path: path_1.default.resolve(__dirname, "../../.env/release.env") });
-        }
-        else if (process.env["NODE_ENV"] == "production") {
-            console.log("使用 production 环境");
-            dotenv_1.default.config({ path: path_1.default.resolve(__dirname, "../../.env/prod.env") });
-        }
-        else {
-            throw "没有指定运行环境";
-        }
-        var host = process.env["DB_HOST"];
-        var port = Number(process.env["DB_PORT"]);
-        var user = process.env["DB_USER"];
-        var password = process.env["DB_PWD"];
-        var database = process.env["DB_NAME"];
-        if (host == null ||
-            port == null ||
-            user == null ||
-            password == null ||
-            database == null) {
-            throw "环境变量错误";
-        }
-        if (isNaN(port)) {
-            throw "环境变量错误";
-        }
+        var { host, port, user, password, database } = (0, lib_1.获得环境变量)();
         var knex = (0, knex_1.default)({
             client: "mysql",
             connection: { host, port, user, password, database },
