@@ -1,6 +1,6 @@
 {
   "name": "@lsby/ql_purs",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "项目模板",
   "bin": {
     "lsby_ql_purs": "bin/index.js"
