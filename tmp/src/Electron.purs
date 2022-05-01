@@ -1,19 +1,21 @@
 module Electron where
 
 import Prelude
+
 import Data.Argonaut (Json)
 import Data.Argonaut (encodeJson, decodeJson) as A
 import Data.Array (length)
 import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
+import Effect.Class (liftEffect)
 import Hby.Electron.App (onActivate, onWindowAllClosed, quit, whenReady)
 import Hby.Electron.BrowserWindow (getAllWindows, getWebContents, loadFile, loadURL, newBrowserWindow)
 import Hby.Electron.Data (BrowserWindowConf, IpcMainEvent)
 import Hby.Electron.IPCMain (on)
 import Hby.Electron.IpcMainEvent (reply, setReturnValue)
 import Hby.Electron.WebContents (openDevTools)
-import Hby.Task (Task, liftEffect, runTask_, log)
+import Hby.Task (Task, runTask_, log)
 import Hby.Unsafe (unsafeLog)
 import Lib.Lib (initEnv)
 import Node.Globals (__dirname)
