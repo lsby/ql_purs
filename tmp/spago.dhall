@@ -18,6 +18,7 @@ to generate this file without the comments in this block.
   , "concur-core"
   , "concur-react"
   , "console"
+  , "control"
   , "effect"
   , "either"
   , "hby-electron"
