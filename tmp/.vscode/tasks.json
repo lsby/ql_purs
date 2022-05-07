@@ -2,19 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "watch:component",
-      "type": "npm",
-      "script": "watch:component",
-      "isBackground": true,
-      "presentation": {
-        "reveal": "never"
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
       "label": "watch:web",
       "type": "npm",
       "script": "watch:web",
@@ -56,7 +43,7 @@
     },
     {
       "label": "watch:all",
-      "dependsOn": ["watch:component", "watch:web", "watch:ts", "watch:purs"],
+      "dependsOn": ["watch:web", "watch:ts", "watch:purs"],
       "problemMatcher": []
     }
   ]

@@ -12,15 +12,16 @@ to generate this file without the comments in this block.
 -}
 { name = "my-project"
 , dependencies =
-  [ "argonaut"
+  [ "aff"
+  , "argonaut"
   , "arrays"
+  , "concur-core"
+  , "concur-react"
   , "console"
   , "effect"
   , "either"
   , "hby-electron"
   , "hby-express"
-  , "hby-memoize-one"
-  , "hby-react"
   , "hby-task"
   , "hby-unsafe"
   , "integers"
@@ -29,6 +30,8 @@ to generate this file without the comments in this block.
   , "node-process"
   , "numbers"
   , "prelude"
+  , "tailrec"
+  , "transformers"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
