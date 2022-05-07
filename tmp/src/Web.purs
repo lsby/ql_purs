@@ -1,16 +1,26 @@
 module Web where
 
 import Prelude
-import Component.FFI.Button (button)
+import Component.Clock as Clock
+import Component.Counter2 as Counter2
+import Component.FFI.Button as FFI
+import Component.Hello as Hello
+import Component.Signal as Signal
 import Concur.React.DOM as D
-import Concur.React.Props as P
 import Concur.React.Run (runWidgetInDom)
-import Control.Alt ((<|>))
 import Effect (Effect)
 
 main :: Effect Unit
-main = runWidgetInDom "app" $ f 0
-  where
-  f n = do
-    _ <- D.text (show n) <|> (button [ P.onClick ] [ D.text "按钮" ])
-    f $ n + 1
+main =
+  runWidgetInDom "app"
+    $ D.div'
+        [ D.div' [ Hello.main ]
+        , D.div' [ D.text "=======" ]
+        , D.div' [ Clock.main 0 ]
+        , D.div' [ D.text "=======" ]
+        , D.div' [ Signal.main ]
+        , D.div' [ D.text "=======" ]
+        , D.div' [ Counter2.main ]
+        , D.div' [ D.text "=======" ]
+        , D.div' [ FFI.button [] [ D.text "组件按钮" ] ]
+        ]
