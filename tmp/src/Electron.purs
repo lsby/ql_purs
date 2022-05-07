@@ -1,7 +1,6 @@
 module Electron where
 
 import Prelude
-
 import Data.Argonaut (Json)
 import Data.Argonaut (encodeJson, decodeJson) as A
 import Data.Array (length)

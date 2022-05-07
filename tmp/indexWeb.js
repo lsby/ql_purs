@@ -1,3 +1,5 @@
+import "rsuite/styles/index.less"
+
 require("./output/Web/index.js").main()
 
 if (module.hot) {
