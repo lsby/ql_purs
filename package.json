@@ -1,6 +1,6 @@
 {
   "name": "@lsby/ql_purs",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "项目模板",
   "bin": {
     "lsby_ql_purs": "bin/index.js"
@@ -18,11 +18,7 @@
     "!.wafpickle-*",
     "!config.gypi",
     "!CVS",
-    "!npm-debug.log",
-    "/lib/*",
-    "/tmp",
-    "/tmp/.gitignore",
-    "/tmp/.npmignore"
+    "!npm-debug.log"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
