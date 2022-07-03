@@ -42,5 +42,8 @@
   "bugs": {
     "url": "https://github.com/lsby/ql_purs/issues"
   },
-  "homepage": "https://github.com/lsby/ql_purs#readme"
+  "homepage": "https://github.com/lsby/ql_purs#readme",
+  "dependencies": {
+    "@lsby/exec_cmd": "^0.0.11"
+  }
 }

@@ -1,8 +1,0 @@
-{
-  "restartable": "rs",
-  "verbose": false,
-  "watch": ["dist/*", "output/*"],
-  "ext": "",
-  "nodeArgs": ["--inspect"],
-  "delay": 1
-}
