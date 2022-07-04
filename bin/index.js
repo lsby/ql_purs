@@ -13,7 +13,7 @@ async function main() {
     命令所在目录,
     { extract: true }
   );
-  await exec(`mv -f ${临时目录}/{.[!.],}* ${命令所在目录}/`);
+  await exec(`cp -r ${临时目录}/{.[!.],}* ${命令所在目录}/`);
   await exec(`rm -rf ${临时目录}`);
 
   console.log("安装npm依赖:", "npm i");
